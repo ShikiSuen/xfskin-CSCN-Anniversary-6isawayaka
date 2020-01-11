@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style title="CSCN-Anniversary (Beta 5)" description="Based on 007pig's 6i Sawayaka style. Credit: [2004] 007pig &amp; darkensoft, [2020] ShikiSuen." user_selectable="1" addon_id="XF" base_version_id="2010671" export_version="2">
+  <templates>
+    <template title="extra.less" type="public" addon_id="XF" version_id="2010671" version_string="2.1.6 Patch 1"><![CDATA[/* ==================== Forumdisplay Threadbit ==================== */
+.structItemContainer {display: flex; flex-flow: column nowrap; background: @xf-borderColorFaint;
+	.structItem {flex: 0 0 100%; display: flex; border-top: 0; flex-flow: row nowrap; align-items: stretch; justify-content: space-between;
+		&.is-highlighted,
+		&.is-moderated
+		{
+			.structItem-cell--main {background: @xf-contentHighlightBg;}
+		}
+
+		&.is-deleted
+		{
+			opacity: .7;
+
+			.structItem-title > *
+			{
+				text-decoration: line-through;
+			}
+		}
+
+		&.is-mod-selected
+		{
+			.structItem-cell--main {background: @xf-inlineModHighlightColor; opacity: 1;}
+		}
+	}
+	.structItemContainer-group {flex: 0 0 100%; display: flex; flex-flow: column nowrap;}
+	.structItemContainer-group--sticky {border-bottom: 3px solid #89b7f0;}
+	.structItem--thread {border-top: 1px solid #BDCBDB;}
+		.structItem-cell {margin-left: 1px;}
+		.structItem-cell--newThread {flex: 1 1 auto; background: #E8F2FF;}
+		.structItem-cell--icon {flex: 0 0; background: #FFF; padding: @xf-paddingMedium;}
+			.structItem-secondaryIcon {}
+		.structItem-cell--main {flex: 1 1 auto; background: #E8F2FF; padding: @xf-paddingMedium;}
+			.structItem-title {font-size: @xf-fontSizeSmall;}
+			.structItem-minor {font-size: @xf-fontSizeSmall;}
+		.structItem-cell--meta {flex: 0 0 auto; background: #FFF; padding: @xf-paddingMedium;}
+		.structItem-cell.structItem-cell--latest {flex: 0 0 140px; background: #E8F2FF; padding: @xf-paddingMedium;}
+		.structItem-cell.structItem-cell--icon.structItem-cell--iconEnd {background: #FFF; flex-flow: row nowrap; align-items: center;}
+}
+@media (max-width: @xf-responsiveNarrow) {
+}
+@media (max-width: @xf-responsiveWide) {
+	.structItemContainer {
+		.structItem-cell.structItem-cell--latest {flex: 0 0 120px; font-size: @xf-fontSizeSmall;}
+		.structItem-cell.structItem-cell--meta {font-size: @xf-fontSizeSmall;}
+	}
+}
+
+@media (max-width: @xf-responsiveMedium) {
+	.structItemContainer {
+		.structItem {display: table;
+			.structItem-cell--icon {display:none;}
+		}
+		.structItem--thread {background: #f5f9ff; border-top: 0px;
+			.structItem-cell--icon {display: table-cell;}
+		}
+		.structItem-cell {margin-left: 0px; box-shadow: inset 0em 1px #BDCBDB;}
+		.structItem-cell.structItem-cell--main {padding: @xf-paddingMedium @xf-paddingMedium ~"calc(@xf-paddingSmall / 2)" @xf-paddingSmall; margin-right: 0;}
+		.structItem-cell.structItem-cell--meta {box-shadow: none; background: none; padding: ~"calc(@xf-paddingSmall / 2)" 0 ~"calc(@xf-paddingSmall / 2)" @xf-paddingSmall; margin-left: 1px;}
+		.structItem-cell.structItem-cell--latest {box-shadow: none; background: none; padding: ~"calc(@xf-paddingSmall / 2)" 0 ~"calc(@xf-paddingSmall / 2)" 0; margin: 0;}
+		.structItem-cell.structItem-cell--icon.structItem-cell--iconEnd {display: none;}
+	}
+}
+
+/* ==================== Forumbits ==================== */
+.node {background: @xf-borderColorFaint;
+	& + .node {border-top: 1px solid #BDCBDB;}
+	.node-body {display: flex; flex-flow: row nowrap;
+		.node-icon {flex: 0 0 40px; padding: @xf-paddingSmall; margin-right: 1px; background: #FFFFFF;
+		display: flex; align-items: center;}
+		.node-main {flex: 4 1 60%; padding: @xf-paddingSmall; background: #E8F2FF; display: flex; adjust-items: center;
+			.node-main-inner {width: 100%; text-align: left;
+				.node-title {display: inline-block; font-size: @xf-fontSizeSmall; font-weight: bold !important;}
+				.node-meta {display: block; float: right;
+					.node-statsMeta {display: flex; flex-flow: column-reverse nowrap; text-align: right;
+						.pairs.pairs--inline > dt::after {content: ''; display: none;}
+						.pairs.pairs--inline > dt {display: block; margin-left: .5ch; float: right;}
+						.pairs.pairs--inline > dd {display: inline;}
+					}
+				}
+			}
+		}
+		.node-stats {display: none;}
+		.node-extra {flex: 0 0 40%; padding: @xf-paddingSmall; margin-left: 1px; background: #FFFFFF; max-width: 220px;
+		display: flex; flex-flow: column nowrap; justify-content: center; align-items: stretch;
+			.node-extra-placeholder {text-align: center;}
+			.node-extra-icon {display: none}
+			.node-extra-row {flex: 0 0 auto;
+				.node-extra-title {font-weight: bold;
+					.label {font-weight: initial;}
+				}
+				.listInline {display: flex; flex-flow: row-reverse wrap; justify-content: space-between;}
+				.listInline.listInline--bullet>li:before {display: none;}
+			}
+		}
+	}
+}
+@media (max-width: @xf-responsiveMedium) {
+	.node {
+		& + .node {border-top: 1px solid #BDCBDB;}
+		.node-body {display: flex; flex-flow: row wrap;
+			.node-icon {margin-right: 0;}
+			.node-main {flex: 4 1 auto;
+				.node-main-inner {
+					.node-title {display: block;}
+					.node-meta {display: block; float: none;
+						.node-statsMeta {display: inline; text-align: initial;
+							.pairs.pairs--inline > dt::after {content: ':'; display: inline;}
+							.pairs.pairs--inline > dt,.pairs.pairs--inline > dd {display: inline; ; float: none;}
+						}
+					}
+				}
+			}
+			.node-extra {flex: 0 0 100%; flex-flow: column wrap;
+			max-width: 100%; margin-left: 0px; padding-left: ~"calc(44px + @xf-paddingSmall)";
+			background: #f5f9ff; box-shadow: inset 44px 0em #fff; text-align: initial;
+				.node-extra-placeholder {text-align: initial;}
+				.node-extra-row {flex: 0 0 auto;
+					.node-extra-title {font-weight: initial;}
+					.listInline {display: flex; flex-flow: row wrap; justify-content: flex-start;
+					}
+					.listInline.listInline--bullet>li:after {display: inline; content: "\20"; white-space: pre;}
+					.listInline.listInline--bullet>li:before {display: inline; white-space: pre;}
+				}
+			}
+		}
+	}
+}
+
+/* ==================== Outside Container ==================== */
+body {
+	background-color: #002b47;
+	background-image: radial-gradient(circle, #e6f6ff 0%, #3287c4 40%, #166094 60%, #002b47 100%);
+	background-attachment: fixed;
+}
+.p-pageWrapper {
+	width: fit-content;
+	width: -moz-fit-content;
+	box-shadow: 0px 6px 20px 10px rgba(0, 0, 0, 0.5);
+	margin: 0 auto;
+	max-width: ~"calc(@{xf-pageWidthMax} - 32px)";
+	width: ~"calc(100% - 32px)";
+	min-height: ~"calc(100vh)";
+}
+
+/* ==================== Core Block ==================== */
+.block-body {font-size: @xf-fontSizeSmall;}
+
+/* ==================== Postbit ==================== */
+.block--messages .message {
+	&.is-mod-selected {border-color: transparent; border-bottom-color: @xf-inlineModHighlightColor;}
+}
+.blockMessage {box-shadow: none;
+	&.blockMessage--none {box-shadow: none;}
+}
+
+.block--messages {.block-container {box-shadow: none;}}
+
+.message-inner {display: block;}
+.message-cell {
+	.m-clearFix();
+	&.message-cell--user {
+		width: auto;
+		border-right: none;
+		border-bottom: @xf-messageUserBlock--border-width solid @xf-messageUserBlock--border-color;
+	}
+	&.message-cell--main {padding-left: @xf-messagePadding;}
+	&.message-cell--extra {
+		width: auto;
+		border-left: none;
+	}
+	.message--quickReply {}
+}
+.message--quickReply .message-cell--user {display:none;}
+
+.message-userArrow {
+	top: auto;
+	right: auto;
+	bottom: -1px;
+	left: @avatar-s;
+	content: "";
+	border: none;
+	.m-triangleLeft(@xf-contentBg, @xf-messagePadding - 1px);
+	.m-triangleUp(xf-default(@xf-messageUserBlock--border-color, transparent), @xf-messagePadding);
+	
+	&:after {
+		top: auto;
+		right: auto;
+		left: -(@xf-messagePadding - 1px);
+		bottom: -@xf-messagePadding;
+		border: none;
+		.m-triangleUp(@xf-contentBg, @xf-messagePadding - 1px);
+	}
+}
+
+.message-avatar {margin-bottom: 0; .avatar {& + .message-avatar-online {left: auto; right: 0;}}}
+.message-name {font-size: @xf-fontSizeLarge; text-align: left;}
+.message-user {display: flex;}
+.message-userTitle {display: inline-block; text-align: left;}
+.message-userBanner.userBanner {
+	width: -moz-fit-content;
+	width: fit-content;
+	text-align: left;
+	margin: 3px 0 0 0;
+}
+.message-userDetails {
+	flex: 1;
+	min-width: 0;
+	padding-left: @xf-messagePadding;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+}
+.message--deleted {display: block;}
+
+@media (max-width: @xf-messageSingleColumnWidth) {.message:not(.message--forceColumns) {.message-name {font-size: inherit;}}}
+
+
+/* ==================== Postbit Misc ==================== */
+.p-sectionLinks-list .p-navEl-link, .p-sectionLinks-list .p-navEl-splitTrigger {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+.p-sectionLinks-list .p-navEl-link, .p-sectionLinks-list .p-navEl-splitTrigger {font-size: 14px}
+.block-row {padding: 6px;}
+.message-signature {font-size: 12px;}
+.vbtborder {background: #BDCBDB}
+.message-body {padding-left: 10px; padding-right: 10px; font-size: @xf-fontSizeNormal; line-height: 1.6}
+.actionBar-set {
+	text-transform: lowercase;
+}]]></template>
+    <template title="node_list_category" type="public" addon_id="XF" version_id="2010671" version_string="2.1.6 Patch 1"><![CDATA[<xf:macro name="depth1" arg-node="!" arg-extras="!" arg-children="!" arg-childExtras="!" arg-depth="1">
+	<div class="block block--category block--category{$node.node_id}">
+		<span class="u-anchorTarget" id="{$node.Data.getCategoryAnchor()}"></span>
+		<div class="block-container">
+			<h2 class="block-header">
+				<a href="{{ link('categories', $node) }}">{$node.title}</a>
+				<xf:if is="{$node.description}"><span class="block-desc">{$node.description|raw}</span></xf:if>
+			</h2>
+			<div class="block-body">
+				<xf:macro template="forum_list" name="node_list"
+					arg-children="{$children}"
+					arg-extras="{$childExtras}"
+					arg-depth="{{ $depth + 1 }}" />
+			</div>
+		</div>
+	</div>
+</xf:macro>
+
+<xf:macro name="depth2" arg-node="!" arg-extras="!" arg-children="!" arg-childExtras="!" arg-depth="1">
+	<div class="node node--id{$node.node_id} node--depth{$depth} node--category {{ $extras.hasNew ? 'node--unread' : 'node--read' }}">
+		<div class="node-body">
+			<span class="node-icon" aria-hidden="true"><i></i></span>
+			<div class="node-main js-nodeMain">
+				<div class="node-main-inner">
+					<xf:set var="$descriptionDisplay" value="{{ property('nodeListDescriptionDisplay') }}" />
+					<h3 class="node-title">
+						<a href="{{ link('categories', $node) }}" data-xf-init="{{ $descriptionDisplay == 'tooltip' ? 'element-tooltip' : '' }}" data-shortcut="node-description">{$node.title}</a>
+					</h3>
+
+					<div class="node-meta">
+						<xf:if is="!{$extras.privateInfo}">
+							<div class="node-statsMeta">
+								<dl class="pairs pairs--inline">
+									<dt>{{ phrase('threads') }}</dt>
+									<dd>{$extras.discussion_count|number_short(1)}</dd>
+								</dl>
+								<dl class="pairs pairs--inline">
+									<dt>{{ phrase('messages') }}</dt>
+									<dd>{$extras.message_count|number_short(1)}</dd>
+								</dl>
+							</div>
+						</xf:if>
+					</div>
+
+					<xf:if is="$descriptionDisplay != 'none' && $node.description">
+						<div class="node-description {{ $descriptionDisplay == 'tooltip' ? 'node-description--tooltip js-nodeDescTooltip' : '' }}">{$node.description|raw}</div>
+					</xf:if>
+					
+					<xf:if is="$depth == 2 AND property('nodeListSubDisplay') == 'flat'">
+						<xf:macro template="forum_list" name="sub_nodes_flat"
+							arg-children="{$children}"
+							arg-childExtras="{$childExtras}"
+							arg-depth="{{ $depth + 1 }}" />
+					<xf:else />
+						<xf:if is="$depth == 2 AND property('nodeListSubDisplay') == 'menu'">
+							<xf:macro template="forum_list" name="sub_nodes_menu"
+								arg-children="{$children}"
+								arg-childExtras="{$childExtras}"
+								arg-depth="{{ $depth + 1 }}" />
+						</xf:if>
+					</xf:if>
+				</div>
+			</div>
+	
+			<xf:if is="!{$extras.privateInfo}">
+				<div class="node-stats">
+					<dl class="pairs pairs--rows">
+						<dt>{{ phrase('threads') }}</dt>
+						<dd>{$extras.discussion_count|number_short(1)}</dd>
+					</dl>
+					<dl class="pairs pairs--rows">
+						<dt>{{ phrase('messages') }}</dt>
+						<dd>{$extras.message_count|number_short(1)}</dd>
+					</dl>
+				</div>
+			</xf:if>
+
+			<div class="node-extra">
+				<xf:if is="{$extras.privateInfo}">
+					<span class="node-extra-placeholder">{{ phrase('private') }}</span>
+				<xf:elseif is="{$extras.LastThread}" />
+					<div class="node-extra-icon">
+						<xf:if is="$xf.visitor.isIgnoring($extras.last_post_user_id)">
+							<xf:avatar user="{{ null }}" size="xs" />
+						<xf:else />
+							<xf:avatar user="{$extras.LastPostUser}" defaultname="{$extras.last_post_username}" size="xs" />
+						</xf:if>
+					</div>
+					<div class="node-extra-row">
+						<xf:if is="$extras.LastThread.isUnread()">
+							<a href="{{ link('threads/unread', $extras.LastThread) }}" class="node-extra-title" title="{$extras.LastThread.title}">{{ prefix('thread', $extras.LastThread) }}{$extras.LastThread.title}</a>
+						<xf:else />
+							<a href="{{ link('threads/post', $extras.LastThread, {'post_id': $extras.last_post_id}) }}" class="node-extra-title" title="{$extras.LastThread.title}">{{ prefix('thread', $extras.LastThread) }}{$extras.LastThread.title}</a>
+						</xf:if>
+					</div>
+					<div class="node-extra-row">
+						<ul class="listInline listInline--bullet">
+							<li class="node-extra-date"><xf:date time="{$extras.last_post_date}" /></li>
+							<xf:if is="$xf.visitor.isIgnoring($extras.last_post_user_id)">
+								<li class="node-extra-user">{{ phrase('ignored_member') }}</li>
+							<xf:else />
+								<li class="node-extra-user"><xf:username user="{$extras.LastPostUser}" defaultname="{$extras.last_post_username}" /></li>
+							</xf:if>
+						</ul>
+					</div>
+				<xf:else />
+					<span class="node-extra-placeholder">{{ phrase('none') }}</span>
+				</xf:if>
+			</div>
+		</div>
+	</div>
+</xf:macro>
+
+<xf:macro name="depthN" arg-node="!" arg-extras="!" arg-children="!" arg-childExtras="!" arg-depth="1">
+	<li>
+		<a href="{{ link('categories', $node) }}" class="subNodeLink subNodeLink--category {{ $extras.hasNew ? 'subNodeLink--unread' : '' }}">{$node.title}</a>
+		<xf:macro template="forum_list" name="sub_node_list"
+			arg-children="{$children}"
+			arg-childExtras="{$childExtras}"
+			arg-depth="{{ $depth + 1 }}" />
+	</li>
+</xf:macro>]]></template>
+    <template title="node_list_forum" type="public" addon_id="XF" version_id="2010671" version_string="2.1.6 Patch 1"><![CDATA[<xf:macro name="depth1" arg-node="!" arg-extras="!" arg-children="!" arg-childExtras="!" arg-depth="1">
+	<div class="block">
+		<div class="block-container">
+			<div class="block-body">
+				<xf:macro name="forum"
+					arg-node="{$node}"
+					arg-extras="{$extras}"
+					arg-children="{$children}"
+					arg-childExtras="{$childExtras}"
+					arg-depth="{$depth}" />
+			</div>
+		</div>
+	</div>
+</xf:macro>
+
+<xf:macro name="depth2" arg-node="!" arg-extras="!" arg-children="!" arg-childExtras="!" arg-depth="1">
+	<xf:macro name="forum"
+		arg-node="{$node}"
+		arg-extras="{$extras}"
+		arg-children="{$children}"
+		arg-childExtras="{$childExtras}"
+		arg-depth="{$depth}" />
+</xf:macro>
+
+<xf:macro name="depthN" arg-node="!" arg-extras="!" arg-children="!" arg-childExtras="!" arg-depth="1">
+	<li>
+		<a href="{{ link('forums', $node) }}" class="subNodeLink subNodeLink--forum {{ $extras.hasNew ? 'subNodeLink--unread' : '' }}">{$node.title}</a>
+		<xf:macro template="forum_list" name="sub_node_list"
+			arg-children="{$children}"
+			arg-childExtras="{$childExtras}"
+			arg-depth="{{ $depth + 1 }}" />
+	</li>
+</xf:macro>
+
+<xf:macro name="forum"
+	arg-node="!"
+	arg-extras="!"
+	arg-children="!"
+	arg-childExtras="!"
+	arg-depth="!"
+	arg-chooseName=""
+	arg-bonusInfo="">
+
+	<div class="node node--id{$node.node_id} node--depth{$depth} node--forum {{ $extras.hasNew ? 'node--unread' : 'node--read' }}">
+		<div class="node-body">
+			<span class="node-icon" aria-hidden="true"><i></i></span>
+			<div class="node-main js-nodeMain">
+				<div class="node-main-inner">
+					<xf:if is="$chooseName">
+						<xf:checkbox standalone="true">
+							<xf:option labelclass="u-pullRight" class="js-chooseItem" name="{$chooseName}[]" value="{$node.node_id}" />
+						</xf:checkbox>
+					</xf:if>
+	
+					<xf:set var="$descriptionDisplay" value="{{ property('nodeListDescriptionDisplay') }}" />
+					<h3 class="node-title">
+						<a href="{{ link('forums', $node) }}" data-xf-init="{{ $descriptionDisplay == 'tooltip' ? 'element-tooltip' : '' }}" data-shortcut="node-description">{$node.title}</a>
+					</h3>
+					
+					<div class="node-meta">
+						<xf:if is="!{$extras.privateInfo}">
+							<div class="node-statsMeta">
+								<dl class="pairs pairs--inline">
+									<dt>{{ phrase('threads') }}</dt>
+									<dd>{$extras.discussion_count|number_short(1)}</dd>
+								</dl>
+								<dl class="pairs pairs--inline">
+									<dt>{{ phrase('messages') }}</dt>
+									<dd>{$extras.message_count|number_short(1)}</dd>
+								</dl>
+							</div>
+						</xf:if>
+					</div>
+					
+					<xf:if is="$descriptionDisplay != 'none' && $node.description">
+						<div class="node-description {{ $descriptionDisplay == 'tooltip' ? 'node-description--tooltip js-nodeDescTooltip' : '' }}">{$node.description|raw}</div>
+					</xf:if>
+	
+					<xf:if is="$depth == 2 AND property('nodeListSubDisplay') == 'flat'">
+						<xf:macro template="forum_list" name="sub_nodes_flat"
+							arg-children="{$children}"
+							arg-childExtras="{$childExtras}"
+							arg-depth="{{ $depth + 1 }}" />
+					<xf:else />
+						<xf:if is="$depth == 2 AND property('nodeListSubDisplay') == 'menu'">
+							<xf:macro template="forum_list" name="sub_nodes_menu"
+								arg-children="{$children}"
+								arg-childExtras="{$childExtras}"
+								arg-depth="{{ $depth + 1 }}" />
+						</xf:if>
+					</xf:if>
+	
+					<xf:if is="$bonusInfo is not empty">
+						<div class="node-bonus">{$bonusInfo}</div>
+					</xf:if>
+				</div>
+			</div>
+
+			<xf:if is="!{$extras.privateInfo}">
+				<div class="node-stats">
+					<dl class="pairs pairs--rows">
+						<dt>{{ phrase('threads') }}</dt>
+						<dd>{$extras.discussion_count|number_short(1)}</dd>
+					</dl>
+					<dl class="pairs pairs--rows">
+						<dt>{{ phrase('messages') }}</dt>
+						<dd>{$extras.message_count|number_short(1)}</dd>
+					</dl>
+				</div>
+			</xf:if>
+
+			<div class="node-extra">
+				<xf:if is="{$extras.privateInfo}">
+					<span class="node-extra-placeholder">{{ phrase('private') }}</span>
+				<xf:elseif is="{$extras.LastThread}" />
+					<div class="node-extra-icon">
+						<xf:if is="$xf.visitor.isIgnoring($extras.last_post_user_id)">
+							<xf:avatar user="{{ null }}" size="xs" />
+						<xf:else />
+							<xf:avatar user="{$extras.LastPostUser}" defaultname="{$extras.last_post_username}" size="xs" />
+						</xf:if>
+					</div>
+					<div class="node-extra-row">
+						<xf:if is="$extras.LastThread.isUnread()">
+							<a href="{{ link('threads/unread', $extras.LastThread) }}" class="node-extra-title" title="{$extras.LastThread.title}">{{ prefix('thread', $extras.LastThread) }}{$extras.LastThread.title}</a>
+						<xf:else />
+							<a href="{{ link('threads/post', $extras.LastThread, {'post_id': $extras.last_post_id}) }}" class="node-extra-title" title="{$extras.LastThread.title}">{{ prefix('thread', $extras.LastThread) }}{$extras.LastThread.title}</a>
+						</xf:if>
+					</div>
+					<div class="node-extra-row">
+						<ul class="listInline listInline--bullet">
+							<li><xf:date time="{$extras.last_post_date}" class="node-extra-date" /></li>
+							<xf:if is="$xf.visitor.isIgnoring($extras.last_post_user_id)">
+								<li class="node-extra-user">{{ phrase('ignored_member') }}</li>
+							<xf:else />
+								<li class="node-extra-user"><xf:username user="{$extras.LastPostUser}" defaultname="{$extras.last_post_username}" /></li>
+							</xf:if>
+						</ul>
+					</div>
+				<xf:else />
+					<span class="node-extra-placeholder">{{ phrase('none') }}</span>
+				</xf:if>
+			</div>
+		</div>
+	</div>
+
+	<xf:if is="{$depth} == 1">
+		<xf:macro template="forum_list" name="node_list"
+			arg-children="{$children}"
+			arg-extras="{$childExtras}"
+			arg-depth="{{ $depth + 1 }}" />
+	</xf:if>
+</xf:macro>]]></template>
+  </templates>
+  <properties>
+    <property property_name="avatarBorderRadius" group_name="avatar" title="Avatar border radius" description="Controls the size of the rounded corners on avatars - a sufficiently large value will make avatars circular" property_type="value" value_type="unit" depends_on="" value_group="" display_order="200" addon_id="XF">
+      <value>"50%"</value>
+    </property>
+    <property property_name="blockBorder" group_name="block" title="Block border framework" description="Virtually all blocks have their borders styled with these settings" property_type="css" value_type="" depends_on="" value_group="" display_order="20000" css_components="border,extra" addon_id="XF">
+      <value>{
+    "border-top-color": "@xf-borderColorLight",
+    "border-right-color": "@xf-borderColor",
+    "border-bottom-color": "@xf-borderColorHeavy",
+    "border-left-color": "@xf-borderColor",
+    "extra": "box-shadow: 0 1px 2px 0 rgba(0,0,0,0.14), 0 0px 1px -2px rgba(0,0,0,0.2), 0 1px 5px 0 rgba(0,0,0,0.12);"
+}</value>
+    </property>
+    <property property_name="blockFilterBar" group_name="block" title="Block filter bar" description="When the content of a block can be filtered, the controls to do so are styled here" property_type="css" value_type="" depends_on="" value_group="" display_order="20800" css_components="text,background,border,extra" addon_id="XF">
+      <value>{
+    "font-size": "@xf-fontSizeSmall",
+    "color": "@xf-majorHeadingTextColor",
+    "font-weight": "@xf-fontWeightHeavy",
+    "background-color": "@xf-majorHeadingBg",
+    "border-bottom-width": "4px",
+    "border-bottom-color": "#89B7F0"
+}</value>
+    </property>
+    <property property_name="blockHeader" group_name="block" title="Block header" description="Blocks often have title bars at their tops, which are styled here" property_type="css" value_type="" depends_on="" value_group="" display_order="20100" css_components="text,background,border,extra" addon_id="XF">
+      <value>{
+    "font-size": "@xf-fontSizeNormal",
+    "color": "#000",
+    "font-weight": "@xf-fontWeightHeavy",
+    "background-color": "@xf-majorHeadingBg",
+    "border-bottom-width": "4px",
+    "border-bottom-color": "#89B7F0",
+    "extra": "text-transform: uppercase;"
+}</value>
+    </property>
+    <property property_name="blockMinorHeader" group_name="block" title="Block minor header" description="Sub-headings in blocks use these settings" property_type="css" value_type="" depends_on="" value_group="" display_order="20400" css_components="text,background,border,extra" addon_id="XF">
+      <value>{
+    "font-size": "@xf-fontSizeNormal",
+    "color": "@xf-textColor",
+    "font-weight": "@xf-fontWeightHeavy",
+    "border-bottom-width": "4px",
+    "border-bottom-color": "#89b7f0"
+}</value>
+    </property>
+    <property property_name="blockPaddingH" group_name="block" title="Block padding horizontal" description="The horizontal space between the edges of a block and its content" property_type="value" value_type="unit" depends_on="" value_group="padding" display_order="100" addon_id="XF">
+      <value>"@xf-paddingMedium"</value>
+    </property>
+    <property property_name="blockPaddingV" group_name="block" title="Block padding vertical" description="The vertical space between a block's content and its edges" property_type="value" value_type="unit" depends_on="" value_group="padding" display_order="200" addon_id="XF">
+      <value>"@xf-paddingSmall"</value>
+    </property>
+    <property property_name="borderRadiusLarge" group_name="borderSpacing" title="Large border radius" description="" property_type="value" value_type="unit" depends_on="" value_group="borderRadius" display_order="1200" addon_id="XF">
+      <value>"0px"</value>
+    </property>
+    <property property_name="borderRadiusMedium" group_name="borderSpacing" title="Medium border radius" description="" property_type="value" value_type="unit" depends_on="" value_group="borderRadius" display_order="1100" addon_id="XF">
+      <value>"0px"</value>
+    </property>
+    <property property_name="borderRadiusSmall" group_name="borderSpacing" title="Small border radius" description="" property_type="value" value_type="unit" depends_on="" value_group="borderRadius" display_order="1000" addon_id="XF">
+      <value>"0px"</value>
+    </property>
+    <property property_name="chromeBg" group_name="color" title="Page chrome background color" description="" property_type="value" value_type="color" depends_on="" value_group="chrome" display_order="6000" addon_id="XF">
+      <value>"#233141"</value>
+    </property>
+    <property property_name="chromeTextColor" group_name="color" title="Page chrome text color" description="" property_type="value" value_type="color" depends_on="" value_group="chrome" display_order="6050" addon_id="XF">
+      <value>"#FEFEFE"</value>
+    </property>
+    <property property_name="fontFamilyBody" group_name="fonts" title="Body Text Font" description="This font is used for the text of messages etc." property_type="value" value_type="string" depends_on="" value_group="font" display_order="200" addon_id="XF">
+      <value>"'Tahoma Basic Latin', 'Tahoma', sans-serif"</value>
+    </property>
+    <property property_name="fontFamilyCode" group_name="fonts" title="Code Font" description="The font list used for mono-spaced text input and output" property_type="value" value_type="string" depends_on="" value_group="font" display_order="300" addon_id="XF">
+      <value>"Menlo, Monaco, Consolas, 'Roboto Mono', 'Andale Mono', 'Ubuntu Mono', monospace"</value>
+    </property>
+    <property property_name="fontFamilyUi" group_name="fonts" title="User Interface Font" description="The font list for your main text" property_type="value" value_type="string" depends_on="" value_group="font" display_order="100" addon_id="XF">
+      <value>"'Tahoma Basic Latin', 'Tahoma', sans-serif"</value>
+    </property>
+    <property property_name="fontSizeSmall" group_name="fonts" title="Small font size" description="" property_type="value" value_type="unit" depends_on="" value_group="size" display_order="1100" addon_id="XF">
+      <value>"13px"</value>
+    </property>
+    <property property_name="fontSizeSmaller" group_name="fonts" title="Smaller font size" description="" property_type="value" value_type="unit" depends_on="" value_group="size" display_order="1200" addon_id="XF">
+      <value>"12px"</value>
+    </property>
+    <property property_name="fontSizeSmallest" group_name="fonts" title="Smallest font size" description="" property_type="value" value_type="unit" depends_on="" value_group="size" display_order="1300" addon_id="XF">
+      <value>"12px"</value>
+    </property>
+    <property property_name="lineHeightDefault" group_name="fonts" title="Line height" description="This value controls the amount of spacing between lines of text" property_type="value" value_type="number" depends_on="" value_group="spacing" display_order="3000" addon_id="XF">
+      <value_parameters>step=0.1
+max=5</value_parameters>
+      <value>"1.3"</value>
+    </property>
+    <property property_name="link" group_name="page" title="Links" description="These are the styling rules for basic hyperlinks throughout the system" property_type="css" value_type="" depends_on="" value_group="" display_order="20000" css_components="text,extra" addon_id="XF">
+      <value>{
+    "color": "#000",
+    "text-decoration": "none"
+}</value>
+    </property>
+    <property property_name="linkHover" group_name="page" title="Links - hovered" description="When basic links are hovered, they use this set of rules for their styling" property_type="css" value_type="" depends_on="" value_group="" display_order="20100" css_components="text,extra" addon_id="XF">
+      <value>{
+    "color": "#000",
+    "text-decoration": "underline"
+}</value>
+    </property>
+    <property property_name="majorHeadingBg" group_name="color" title="Major heading background color" description="" property_type="value" value_type="color" depends_on="" value_group="heading" display_order="6100" addon_id="XF">
+      <value>"#FFFFFF"</value>
+    </property>
+    <property property_name="majorHeadingTextColor" group_name="color" title="Major heading text color" description="" property_type="value" value_type="color" depends_on="" value_group="heading" display_order="6200" addon_id="XF">
+      <value>"#000000"</value>
+    </property>
+    <property property_name="messageSingleColumnWidth" group_name="message" title="Message single column break point" description="When the viewport is smaller than this value, the user column will collapse, leaving a single-column message layout" property_type="value" value_type="unit" depends_on="" value_group="" display_order="100" addon_id="XF">
+      <value>"450px"</value>
+    </property>
+    <property property_name="messageUserBlock" group_name="message" title="Message user info block" description="Apart from its width, the (left) message user info column is styled here" property_type="css" value_type="" depends_on="" value_group="" display_order="20000" css_components="text,background,border_width_simple,border_color_simple,extra" addon_id="XF">
+      <value>{
+    "background-color": "#E8F2FF",
+    "border-width": "0",
+    "extra": "border-top:#89B7F0 4px solid;"
+}</value>
+    </property>
+    <property property_name="messageUserElements" group_name="message" title="Message user info elements" description="The elements selected here will be displayed in the message user info block. It will not be displayed below the single column width." property_type="value" value_type="template" depends_on="" value_group="user" display_order="600" addon_id="XF">
+      <value_parameters>template=style_property_template_messageUserElements
+type=array</value_parameters>
+      <value>{
+    "register_date": "1",
+    "message_count": "1",
+    "reaction_score": "1",
+    "custom_fields": "1"
+}</value>
+    </property>
+    <property property_name="minorHeadingTextColor" group_name="color" title="Minor heading text color" description="" property_type="value" value_type="color" depends_on="" value_group="heading" display_order="6400" addon_id="XF">
+      <value>"#808080"</value>
+    </property>
+    <property property_name="nodeIconReadColor" group_name="nodeList" title="Read node icon color" description="When the content within a node has been read, its icon will revert to a less attention-grabbing color, defined here" property_type="value" value_type="color" depends_on="" value_group="" display_order="200" addon_id="XF">
+      <value>"#415169"</value>
+    </property>
+    <property property_name="nodeIconUnreadColor" group_name="nodeList" title="Unread node icon color" description="Node icons give an at-a-glance indication of whether or not the content housed within the node has been read. The unread icon color should stand out from its background for quick identification" property_type="value" value_type="color" depends_on="" value_group="" display_order="100" addon_id="XF">
+      <value>"#5e7dab"</value>
+    </property>
+    <property property_name="nodeListDescriptionDisplay" group_name="nodeList" title="Description display style" description="To save vertical space, it is possible to hide node descriptions until the node title is hovered, at which point they are displayed in a tooltip" property_type="value" value_type="radio" depends_on="" value_group="" display_order="400" addon_id="XF">
+      <value_parameters>tooltip={{ phrase('tooltip') }}
+inline={{ phrase('inline') }}
+none={{ phrase('none') }}</value_parameters>
+      <value>"inline"</value>
+    </property>
+    <property property_name="nodeListSubDisplay" group_name="nodeList" title="Sub-forums display style" description="Choose the style in which sub-forums will be displayed within a particular node element, according to the amount of space you want them to occupy" property_type="value" value_type="radio" depends_on="" value_group="" display_order="300" addon_id="XF">
+      <value_parameters>menu={{ phrase('popup_menu') }}
+flat={{ phrase('listed_below_node') }}
+none={{ phrase('none') }}</value_parameters>
+      <value>"flat"</value>
+    </property>
+    <property property_name="paddingSmall" group_name="borderSpacing" title="Small padding" description="" property_type="value" value_type="unit" depends_on="" value_group="padding" display_order="2000" addon_id="XF">
+      <value>"4px"</value>
+    </property>
+    <property property_name="pageBackground" group_name="page" title="Page background" description="The page background, behind all block elements, uses the styling rules defined here" property_type="css" value_type="" depends_on="" value_group="" display_order="20200" css_components="background,extra" addon_id="XF">
+      <value>{
+    "background-color": "#ebf1f2"
+}</value>
+    </property>
+    <property property_name="pageWidthMax" group_name="page" title="Maximum page width" description="As the window is resized, it will continue to grow in width until this value, after which it will remain static" property_type="value" value_type="unit" depends_on="" value_group="page" display_order="100" addon_id="XF">
+      <value>"950px"</value>
+    </property>
+    <property property_name="paletteColor1" group_name="palette" title="Color 1" description="" property_type="value" value_type="color" depends_on="" value_group="primary" display_order="1000" addon_id="XF">
+      <value_parameters>hidePalette=true</value_parameters>
+      <value>"#F2F5F8"</value>
+    </property>
+    <property property_name="paletteColor2" group_name="palette" title="Color 2" description="" property_type="value" value_type="color" depends_on="" value_group="primary" display_order="1100" addon_id="XF">
+      <value_parameters>hidePalette=true</value_parameters>
+      <value>"#CDD8E4"</value>
+    </property>
+    <property property_name="paletteColor3" group_name="palette" title="Color 3" description="" property_type="value" value_type="color" depends_on="" value_group="primary" display_order="1200" addon_id="XF">
+      <value_parameters>hidePalette=true</value_parameters>
+      <value>"#7A97B8"</value>
+    </property>
+    <property property_name="paletteColor4" group_name="palette" title="Color 4" description="" property_type="value" value_type="color" depends_on="" value_group="primary" display_order="1300" addon_id="XF">
+      <value_parameters>hidePalette=true</value_parameters>
+      <value>"#4B698B"</value>
+    </property>
+    <property property_name="paletteColor5" group_name="palette" title="Color 5" description="" property_type="value" value_type="color" depends_on="" value_group="primary" display_order="1400" addon_id="XF">
+      <value_parameters>hidePalette=true</value_parameters>
+      <value>"#374D67"</value>
+    </property>
+    <property property_name="publicHeader" group_name="headerNav" title="Header/logo row" description="The header row contains your logo and sits at the top of every public page" property_type="css" value_type="" depends_on="" value_group="" display_order="20000" css_components="text,background,extra" addon_id="XF">
+      <value>{
+    "color": "@xf-chromeTextColor",
+    "background-color": "@xf-chromeBg"
+}</value>
+    </property>
+    <property property_name="publicHeaderAdjustColor" group_name="headerNav" title="Header adjustment color" description="The color of the header background is adjusted to be used as the background for the inbox and alerts area in the header" property_type="value" value_type="color" depends_on="" value_group="header" display_order="100" addon_id="XF">
+      <value>"fade(@xf-paletteNeutral3, 60%)"</value>
+    </property>
+    <property property_name="publicNavSticky" group_name="headerNav" title="Sticky navigation element" description="If you intend for some or all of your header to stick to the top of the page when it is scrolled, choose which elements should stick" property_type="value" value_type="radio" depends_on="" value_group="navigation" display_order="1200" addon_id="XF">
+      <value_parameters>primary={{ phrase('primary_navigation_row_only') }}
+all={{ phrase('primary_and_sub_navigation_rows') }}
+none={{ phrase('none') }}</value_parameters>
+      <value>"primary"</value>
+    </property>
+    <property property_name="publicNavTabHover" group_name="headerNav" title="Navigation row - hovered tab" description="Additional styling to apply to navigation tabs when the pointer hovers over them" property_type="css" value_type="" depends_on="" value_group="" display_order="20400" css_components="text,background,extra" addon_id="XF">
+      <value>{
+    "text-decoration": "none",
+    "background-color": "fade(@xf-publicNavTab--color, 6%)"
+}</value>
+    </property>
+    <property property_name="publicNavTabMenuOpen" group_name="headerNav" title="Navigation row - menu open" description="Styling applied when the popup menu for the current tab is visible" property_type="css" value_type="" depends_on="" value_group="" display_order="20450" css_components="text,background,extra" addon_id="XF">
+      <value>{
+    "color": "#FFF",
+    "text-decoration": "none",
+    "background-color": "fade(#BDCBDB, 30%)"
+}</value>
+    </property>
+    <property property_name="publicStaffBar" group_name="headerNav" title="Staff tools bar" description="Visible only to staff, the staff tools bar sits above the header and contains items such as reported content, the moderation queue..." property_type="css" value_type="" depends_on="" value_group="" display_order="20700" css_components="text,background,border,extra" addon_id="XF">
+      <value>{
+    "font-size": "@xf-fontSizeSmall",
+    "color": "@xf-chromeTextColor",
+    "background-color": "xf-intensify(@xf-chromeBg, 12%)",
+    "border-bottom-width": "0"
+}</value>
+    </property>
+    <property property_name="publicSubNav" group_name="headerNav" title="Sub-navigation row" description="Below the main navigation row, this row shows content associated with the selected main navigation tab" property_type="css" value_type="" depends_on="" value_group="" display_order="20500" css_components="text,background,border,extra" addon_id="XF">
+      <value>{
+    "font-size": "@xf-fontSizeNormal",
+    "color": "@xf-subNavTextColor",
+    "font-weight": "@xf-fontWeightNormal",
+    "background-color": "#FFFFFF",
+    "border-bottom-width": "4px",
+    "border-bottom-color": "#89B7F0"
+}</value>
+    </property>
+    <property property_name="publicSubNavElHover" group_name="headerNav" title="Sub-navigation row - hovered element" description="Additional styling applied to sub-navigation tabs when the pointer hovers over them" property_type="css" value_type="" depends_on="" value_group="" display_order="20600" css_components="text,extra" addon_id="XF">
+      <value>[]</value>
+    </property>
+    <property property_name="publicSubNavElMenuOpen" group_name="headerNav" title="Sub-navigation row - menu-open element" description="Styles sub-navigation elements whose popup menu is currently open" property_type="css" value_type="" depends_on="" value_group="" display_order="20650" css_components="text,background,extra" addon_id="XF">
+      <value>{
+    "color": "#000",
+    "text-decoration": "none",
+    "background-color": "fade(#BDCBDB, 30%)"
+}</value>
+    </property>
+    <property property_name="standaloneTab" group_name="tab" title="Standalone tabs" description="Tabs that are not part of block headers are styled here" property_type="css" value_type="" depends_on="" value_group="" display_order="20000" css_components="text,background,extra" addon_id="XF">
+      <value>{
+    "font-size": "@xf-fontSizeNormal",
+    "color": "#000",
+    "background-color": "#FFF"
+}</value>
+    </property>
+    <property property_name="standaloneTabSelected" group_name="tab" title="Standalone tabs - selected tab" description="The selected tab in groups that are not part of block headers" property_type="css" value_type="" depends_on="" value_group="" display_order="20100" css_components="text,background,border_color_simple,extra" addon_id="XF">
+      <value>{
+    "color": "#000",
+    "font-weight": "@xf-fontWeightHeavy",
+    "border-color": "#89B7F0"
+}</value>
+    </property>
+    <property property_name="subNavBg" group_name="color" title="Page sub-navigation background" description="" property_type="value" value_type="color" depends_on="" value_group="chrome" display_order="6080" addon_id="XF">
+      <value>"#FFF"</value>
+    </property>
+    <property property_name="subNavTextColor" group_name="color" title="Page sub-navigation text color" description="" property_type="value" value_type="color" depends_on="" value_group="chrome" display_order="6090" addon_id="XF">
+      <value>"#000000"</value>
+    </property>
+  </properties>
+</style>
