@@ -116,7 +116,7 @@ body {
 	top: auto;
 	right: auto;
 	bottom: -1px;
-	left: ((@avatar-s) / 2);
+	left: ((@avatar-s));
 	content: "";
 	border: none;
 	.m-triangleLeft(@xf-contentBg, @xf-messagePadding - 1px);
